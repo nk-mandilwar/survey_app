@@ -1,0 +1,115 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+
+/* header */
+
+#logo {
+	height: 70px;
+	width: 70px;
+	border-radius: 35px;
+	margin-left: 50px;
+}
+
+#app_name {
+	font-family: Lucidatypewriter, monospace;
+	font-size: 30px;
+	text-decoration: none;
+	color: #efe928;
+	cursor: pointer;
+}
+
+#app_name:hover {
+	color: #fcf40a;
+}
+
+.header-link-bar {
+	padding-top: 20px;
+	margin-right: 50px;
+}
+
+.header-bar {
+	background: #2e914c;
+}
+
+.navbar-inverse .navbar-nav { 
+  li {
+  	a {
+  		color: #efe928;
+  	}
+	  a:hover {
+	  	color: #07ef39;
+	  	cursor: pointer;
+		}
+	}
+}
+
+	/* footer */
+
+footer {
+	margin-top: 15%;
+	padding-top: 5px;
+	border-top: 1px solid #ccc;
+	
+	a {
+		color: #07ef39;
+	}
+	
+	a:hover {
+		color: #efe928;
+		cursor: pointer;
+	}
+
+	small {
+		margin-left: 5%;
+		float: left;
+		color: #07ef39;
+	}
+
+	ul {
+		margin-right :6%;
+		float: right;
+		list-style: none;
+		
+		li {
+			float: left;
+			margin-left: 15px;
+		}
+	}
+}
+
+	/* devise */
+
+.devise-form {
+	padding: 2%;
+	margin-top: 120px;
+	background: #d5deed;
+	box-shadow: 10px 10px 5px #888888;
+}
+
+.notice {
+	margin-left: 10%;
+	margin-top: 10px;
+	padding: 1px;
+	font-size: medium;
+	text-align: center;
+	position: fixed;
+	border-radius: 5px;
+}
+

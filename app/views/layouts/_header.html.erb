@@ -1,0 +1,23 @@
+<nav class="navbar navbar-fixed-top navbar-inverse bar">
+  <div class="container-fluid header-bar">
+    <div class="navbar-header">
+      <img src="<%= asset_path('logo.png') %>" id="logo"/>
+      <%= link_to "FreeSurvey", root_path, id: "app_name" %>
+    </div>
+    <ul class="nav navbar-nav navbar-right header-link-bar">
+      <li>
+        <%= link_to "Home", root_path %>
+      </li>
+      <li>
+        <a href="http://localhost:3000/users/sign_up">
+          <span class="glyphicon glyphicon-user"></span> Sign Up 
+        </a>
+      </li>
+      <li>
+        <a href="http://localhost:3000/users/sign_in">
+          <span class="glyphicon glyphicon-log-in"></span> Login 
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
