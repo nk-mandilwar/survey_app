@@ -23,5 +23,5 @@ $(document).ready(function(){
 var timeOut = function(){
   setTimeout(function(){
     $('.notice').html('');
-  }, 4000);
+  }, 2000);
 }

@@ -45,17 +45,22 @@
 }
 
 .header-bar {
-	background: #2e914c;
+	background: #3d587a;
 }
 
 .navbar-inverse .navbar-nav { 
   li {
   	a {
-  		color: #efe928;
+  		color: #6696d1;
   	}
 	  a:hover {
-	  	color: #07ef39;
+	  	color: #223449;
 	  	cursor: pointer;
+		}
+	}
+	.open {
+		a, a:hover, a:focus {
+			color: #286090;
 		}
 	}
 }
@@ -68,18 +73,18 @@ footer {
 	border-top: 1px solid #ccc;
 	
 	a {
-		color: #07ef39;
+		color: #6696d1;
 	}
 	
 	a:hover {
-		color: #efe928;
+		color: #223449;
 		cursor: pointer;
 	}
 
 	small {
 		margin-left: 5%;
 		float: left;
-		color: #07ef39;
+		color: #3d587a;
 	}
 
 	ul {
@@ -98,7 +103,6 @@ footer {
 	
 .notice {
 	margin-left: 10%;
-	margin-top: 10px;
 	padding: 1px;
 	font-size: medium;
 	text-align: center;
@@ -108,7 +112,7 @@ footer {
 
 .body-content {
 	margin-left: 10%;
-	margin-top: 70px;
+	margin-top: 80px;
 }
 
 	/* devise */
