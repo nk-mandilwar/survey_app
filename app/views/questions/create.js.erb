@@ -1,6 +1,18 @@
 <% if @question.save %>
 	$('#successful_message').html("Question added successfully.");
+	<% if @question.category == 'Subjective' %>
+		$('#survey_form').html("<%= j render partial: 'dashboard/shared/question_form', 
+																											locals: {survey_id: @question.survey_id}%>");
+		$('#query').val('');
+		$('#no_of_options').val('');
+		$('.category').val('unchecked');
+	<% else %>
+		$('#survey_form').html("<%= j render partial: 'dashboard/shared/option_form.html.erb',
+				 					locals: {question_id: @question.id, survey_id: @question.survey_id, 
+				 																	no_of_options: @question.no_of_options} %>");		 																	
+	<% end %>	
 	timeOut();
 <% else %>
-	$('.error-explanation').html("<%= @question.errors.full_messages %>");
+	$('.error-explanation').html("<%= j render partial: 'dashboard/shared/error_messages', 
+							locals: {messages: @question.errors.full_messages} %>");
 <% end %>		

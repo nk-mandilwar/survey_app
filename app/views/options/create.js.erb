@@ -1,0 +1,13 @@
+<% if @option.save %>
+	$('#successful_message').html("Option was added successfully.");
+	$("#<%= @option_id %>").remove();
+	$('.error-explanation').html('');
+	timeOut();
+	if($("body").find(".option-form").length == 0){
+		$('#survey_form').html("<%= j render partial: 'dashboard/shared/question_form', 
+																											locals: {survey_id: @option.survey_id}%>");
+	}
+<% else %>
+	$('.error-explanation').html("<%= j render partial: 'dashboard/shared/error_messages', 
+							locals: {messages: @option.errors.full_messages} %>");
+<% end %>		

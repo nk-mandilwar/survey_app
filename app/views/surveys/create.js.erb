@@ -1,8 +1,10 @@
 <% if @survey.save %>
 	$('#successful_message').html("Survey title created successfully.");
-	$('#survey_form').replaceWith("<%= escape_javascript render partial: 'dashboard/shared/question_form', locals: {survey_id: @survey.id}%>");
+	$('#survey_form').html("<%= j render partial: 'dashboard/shared/question_form', 
+																											locals: {survey_id: @survey.id}%>");
 	timeOut();
 <% else %>
-	$('.error-explanation').html("Title is must and its maximum length should be 50.");
+	$('.error-explanation').html("<%= j render partial: 'dashboard/shared/error_messages', 
+							locals: {messages: @survey.errors.full_messages} %>");
 <% end %>		
 

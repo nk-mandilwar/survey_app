@@ -1,8 +1,8 @@
-<h4><b> Add a question </b></h4>
-
 <div class="row">
 	<div class="col-md-offset-2 col-md-6">
-		<%= form_for(:question, url: url_for(:controller => "questions", :action => "create", 
+		<h4><b> Add Question </b></h4>
+
+		<%= form_for(:question, url: url_for(controller: "questions", action: "create", 
 														method: "post"), remote: true) do |f| %>
 			
 			<div class="error-explanation"></div>
@@ -15,9 +15,9 @@
 		 
 		 	<div class="field">
 		 		<%= f.label :category %> <br>
-		 		<%= f.radio_button :category, 'Subjective' %> Subjective <br> 
-		 		<%= f.radio_button :category, 'Multiple Choice' %> Multiple Choice <br>
-		 		<%= f.radio_button :category, 'Multiple Answers' %> Multiple Answers
+		 		<%= f.radio_button :category, 'Subjective', class: "category" %> Subjective <br> 
+		 		<%= f.radio_button :category, 'Multiple Choice', class: "category" %> Multiple Choice <br>
+		 		<%= f.radio_button :category, 'Multiple Answers', class: "category" %> Multiple Answers
 		 	</div>
 
 		 	<div class="field">
