@@ -1,7 +1,7 @@
 class DashboardController < ApplicationController
 
 	def index
-		@username = current_user.username
+		@survey = Survey.new
 	end
 	
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161012150021) do
+ActiveRecord::Schema.define(version: 20161013114921) do
 
   create_table "options", force: :cascade do |t|
     t.string   "answer",      limit: 255
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20161012150021) do
 
   create_table "questions", force: :cascade do |t|
     t.string   "query",         limit: 255
-    t.string   "type",          limit: 255
+    t.string   "category",      limit: 255
     t.integer  "survey_id",     limit: 4
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false

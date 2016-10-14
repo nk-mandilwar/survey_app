@@ -1,0 +1,8 @@
+<% if @survey.save %>
+	$('#successful_message').html("Survey title created successfully.");
+	$('#survey_form').replaceWith("<%= escape_javascript render partial: 'dashboard/shared/question_form', locals: {survey_id: @survey.id}%>");
+	timeOut();
+<% else %>
+	$('.error-explanation').html("Title is must and its maximum length should be 50.");
+<% end %>		
+

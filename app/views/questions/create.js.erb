@@ -1,0 +1,6 @@
+<% if @question.save %>
+	$('#successful_message').html("Question added successfully.");
+	timeOut();
+<% else %>
+	$('.error-explanation').html("<%= @question.errors.full_messages %>");
+<% end %>		

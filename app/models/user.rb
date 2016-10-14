@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
 
-	has_many :surveys
+	has_many :surveys, dependent: :destroy
 	
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable

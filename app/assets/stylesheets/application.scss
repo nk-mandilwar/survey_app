@@ -68,7 +68,7 @@
 	/* footer */
 
 footer {
-	margin-top: 15%;
+	margin-top: 35%;
 	padding-top: 5px;
 	border-top: 1px solid #ccc;
 	
@@ -122,4 +122,13 @@ footer {
 	margin-top: 100px;
 	background: #d5deed;
 	box-shadow: 10px 10px 5px #888888;
+}
+
+.button {
+	margin-top: 10px;
+}
+
+.error-explanation {
+	padding: 10px;
+	color: #ce2929;
 }

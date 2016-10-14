@@ -1,0 +1,17 @@
+<div class="row">
+	<div class="col-md-offset-2 col-md-6">
+		<%= form_for(@survey, remote: true) do |f| %>
+			
+			<div class="error-explanation"></div>
+
+			<div class="field">
+			  <%= f.label :survey_title %>
+			  <%= f.text_field :title, class: "form-control", id: "title" %>
+			</div>
+		 
+			<div class="actions">
+			  <%= f.submit "Create", class: "btn btn-primary button" %>
+			</div>
+		<% end %>
+	</div>
+</div>
