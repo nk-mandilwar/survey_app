@@ -1,0 +1,27 @@
+<div class="row">
+	<div class="col-md-offset-2 col-md-6">
+		<%= form_for(survey) do |f| %>
+			
+			<div class="error-explanation">
+				<%= render partial: "error_messages", locals: {survey: survey} %>
+			</div>
+
+			<div class="field">
+			  <%= f.label :survey_title %>
+			  <%= f.text_field :title, class: "form-control", id: "title" %>
+			</div>
+
+			<%= f.fields_for :questions do |builder| %>
+    		<%= render partial: "question_fields", locals: {f: builder} %>
+  		<% end %>
+
+  		<div class="links">
+  			<%= link_to_add_association 'Add Question', f, :questions %>
+  		</div>
+
+			<div class="actions">
+			  <%= f.submit "Submit", class: "btn btn-primary button" %>
+			</div>
+		<% end %>
+	</div>
+</div>

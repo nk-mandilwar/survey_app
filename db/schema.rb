@@ -11,26 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161013114921) do
+ActiveRecord::Schema.define(version: 20161017100429) do
 
   create_table "options", force: :cascade do |t|
     t.string   "answer",      limit: 255
-    t.integer  "survey_id",   limit: 4
     t.integer  "question_id", limit: 4
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
   end
 
   add_index "options", ["question_id"], name: "index_options_on_question_id", using: :btree
-  add_index "options", ["survey_id"], name: "index_options_on_survey_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
-    t.string   "query",         limit: 255
-    t.string   "category",      limit: 255
-    t.integer  "survey_id",     limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.integer  "no_of_options", limit: 4
+    t.string   "query",      limit: 255
+    t.string   "category",   limit: 255
+    t.integer  "survey_id",  limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "questions", ["survey_id"], name: "index_questions_on_survey_id", using: :btree
@@ -83,7 +80,6 @@ ActiveRecord::Schema.define(version: 20161013114921) do
   add_index "users", ["username"], name: "index_users_on_username", using: :btree
 
   add_foreign_key "options", "questions"
-  add_foreign_key "options", "surveys"
   add_foreign_key "questions", "surveys"
   add_foreign_key "survey_answers", "questions"
   add_foreign_key "survey_answers", "surveys"

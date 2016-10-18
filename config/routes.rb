@@ -3,9 +3,12 @@ Rails.application.routes.draw do
   root 'public#index'
   get 'home', to: 'dashboard#index'
   devise_for :users, controllers: { registrations: "registrations" }
-  resources :surveys, only: [:create, :edit, :update, :destroy]
-  resources :questions, only: [:create, :edit, :update, :destroy]
-  resources :options, only: [:create, :edit, :update, :destroy]
+  resources :surveys do 
+    collection do
+      get 'my_surveys'
+    end
+  end 
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,0 +1,27 @@
+<h3 id="survey_header"> Preview </h3>
+
+<div id="survey_title">
+  <strong>Title:</strong>
+  <%= @survey.title %>
+</div>
+
+<ol>
+<% for question in @survey.questions %>
+  <li>
+    <%= question.query %><br>
+    Type: <%= question.category %>
+    <ul>
+    <% for option in question.options %>
+      <li><%= option.answer %></li>
+    <% end %>
+    </ul>
+  </li>
+<% end %>
+</ol>
+
+<p>
+  <%= link_to "Edit", edit_survey_path(@survey) %> |
+  <%= link_to "Destroy", @survey, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "My Surveys", my_surveys_surveys_path %>
+</p>
+

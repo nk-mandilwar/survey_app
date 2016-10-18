@@ -1,0 +1,25 @@
+<div class="nested-fields question-fields">
+	<div class="field">
+		<%= f.label :query %>
+		<%= f.text_field :query, class: "form-control", id: "query" %>		
+	</div>
+
+	<div class="field">
+		<%= f.label :category %><br>
+		<%= f.radio_button :category, 'Subjective', class: "category" %> Subjective  
+		<%= f.radio_button :category, 'Multiple Choice', class: "category" %> Multiple Choice 
+		<%= f.radio_button :category, 'Multiple Answers', class: "category" %> Multiple Answers
+	</div>
+
+	<div class="remove-link">
+		<%= link_to_remove_association 'Remove Question', f %>
+	</div>	
+
+	<%= f.fields_for :options do |builder| %>
+		<%= render partial: 'option_fields', locals: {f: builder} %>
+	<% end %>
+
+	<div class="links">
+		<%= link_to_add_association 'Add Option', f, :options %>
+	</div>
+</div>

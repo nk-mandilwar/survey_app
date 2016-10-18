@@ -2,8 +2,21 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#successful_message {
-	margin-left: 20%;
+.question-fields {
 	padding: 10px;
-	color: #83d635;
+}
+
+.remove-link {
+	width: 100%;
+	text-align: right;
+	border-bottom: solid 1px #e8eaed;
+}
+
+#survey_header {
+	padding-top: 20px;
+	margin-left: 10%;
+}
+
+#survey_title {
+	font-size: large;
 }
