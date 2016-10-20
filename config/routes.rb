@@ -7,8 +7,12 @@ Rails.application.routes.draw do
     collection do
       get 'my_surveys'
     end
+    member do 
+      get 'survey_form'
+    end
   end 
 
+  resources :survey_answers
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

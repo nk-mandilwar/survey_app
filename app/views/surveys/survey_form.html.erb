@@ -1,0 +1,27 @@
+<h1 id="survey_header"><%= @survey.title %></h1>
+
+<div class="row">
+	<div class="col-md-offset-1 col-md-6">
+		<%= form_for(@survey_answer) do |f| %>
+
+			<div class="error-explanation">
+				<%= render partial: "surveys/error_messages", locals: {survey: @survey_answer} %>
+			</div>
+
+			<%= f.label :email %>
+			<%= f.text_field :email, class: "form-control" %><br>
+			<%= f.hidden_field :survey_id, value: @survey.id %>
+			<ol>
+				<% @questions.each do |question| %>
+					<li>
+						<%= f.label question.query %>? <br>
+						<%= f.fields_for :answers do |builder| %>
+							<%= render partial: "surveys/answer_fields", locals: {question: question, f: builder} %>
+						<% end %>	
+					</li><br>
+				<% end %>
+			</ol>
+			<%= f.submit "Submit", class: "btn btn-primary" %>
+		<% end %>
+	</div>
+</div>	  

@@ -1,6 +1,6 @@
 class SurveysController < ApplicationController
 	before_action :authenticate_user!
-	before_action :get_survey, only: [:edit, :show, :update, :destroy]
+	before_action :check_survey_user_or_nil_survey, only: [:edit, :show, :update, :destroy, :survey_form]
 
 	def new
 		@survey = Survey.new	
@@ -16,7 +16,7 @@ class SurveysController < ApplicationController
 	end
 
 	def show
-		check_survey_user_or_nil_survey @survey
+		@questions = @survey.get_questions
 	end
 
 	def my_surveys
@@ -24,11 +24,9 @@ class SurveysController < ApplicationController
 	end
 
 	def edit
-		check_survey_user_or_nil_survey @survey
 	end
 
 	def update
-		check_survey_user_or_nil_survey @survey	
 		if @survey.update(survey_params)
 			redirect_to @survey, notice: 'Survey was successfully updated.'
 		else
@@ -37,12 +35,17 @@ class SurveysController < ApplicationController
 	end
 
 	def destroy
-		check_survey_user_or_nil_survey @survey
 		@survey.destroy
 		respond_to do |format|
 			format.html {redirect_to my_surveys_surveys_path, notice: "Successfully deleted."}
 			format.js
 		end
+	end
+
+	def survey_form
+		@questions = @survey.get_questions
+		@survey_answer = SurveyAnswer.new
+		@survey_answer.answers.build
 	end
 
 	private
@@ -51,10 +54,12 @@ class SurveysController < ApplicationController
 			@survey = Survey.find_by(id: params[:id])
 		end
 
-		def check_survey_user_or_nil_survey survey
-			if survey == nil || survey.user_id != current_user.id
+		def check_survey_user_or_nil_survey 
+			get_survey
+			if @survey == nil || @survey.user_id != current_user.id
 				redirect_to my_surveys_surveys_path, notice: "Can't access."
 			end
+			@survey
 		end
 
 		def survey_params
