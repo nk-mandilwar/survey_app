@@ -6,7 +6,15 @@ class Survey < ActiveRecord::Base
 
   validates :title, presence: true, length: {maximum: 50}
 
+  amoeba do 
+  	enable
+  end
+
   def get_questions
     questions.includes(:options)
+  end
+
+  def get_latest_clone_survey
+    Survey.where("title LIKE ?", "CloneFrom_#{id}%").order(created_at: :desc).first
   end
 end

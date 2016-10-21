@@ -3,7 +3,7 @@
 		<%= form_for(survey) do |f| %>
 			
 			<div class="error-explanation">
-				<%= render partial: "error_messages", locals: {survey: survey} %>
+				<%= render partial: "error_messages", locals: {errors: survey.errors} %>
 			</div>
 
 			<div class="field">

@@ -8,6 +8,10 @@ class Question < ActiveRecord::Base
   validates :query, presence: true, length: {maximum: 80}
   validate :category_in_values
 
+  amoeba do 
+    include_association :options
+  end
+
   private
 
 	  def category_in_values

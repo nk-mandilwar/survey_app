@@ -1,6 +1,7 @@
 class SurveyAnswer < ActiveRecord::Base
   belongs_to :survey
   has_many :answers, dependent: :destroy
+  apply_simple_captcha message: "text does not match"
 
   accepts_nested_attributes_for :answers
 

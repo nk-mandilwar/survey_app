@@ -9,6 +9,7 @@ class SurveysController < ApplicationController
 	def create
 		@survey = current_user.surveys.build(survey_params)
 		if (@survey.save)
+			duplicate_survey(@survey)
 			redirect_to @survey, notice: "Successfully created!"
 		else	
 			render 'new'
@@ -28,6 +29,7 @@ class SurveysController < ApplicationController
 
 	def update
 		if @survey.update(survey_params)
+			duplicate_survey(@survey)
 			redirect_to @survey, notice: 'Survey was successfully updated.'
 		else
 			render :edit
@@ -43,7 +45,8 @@ class SurveysController < ApplicationController
 	end
 
 	def survey_form
-		@questions = @survey.get_questions
+		@clone_survey = @survey.get_latest_clone_survey
+		@questions = @clone_survey.get_questions
 		@survey_answer = SurveyAnswer.new
 		@survey_answer.answers.build
 	end
@@ -66,4 +69,12 @@ class SurveysController < ApplicationController
 			params.require(:survey).permit(:title, questions_attributes: 
 												[:id, :query, :category, :_destroy, options_attributes: [:id, :answer, :_destroy]])
 		end	
+
+		def duplicate_survey(survey)
+			survey.class.amoeba do
+				prepend title: "CloneFrom_#{survey.id}_"
+			end
+			@clone_survey = survey.amoeba_dup
+			@clone_survey.save
+		end
 end

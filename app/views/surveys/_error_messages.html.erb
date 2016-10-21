@@ -1,7 +1,9 @@
-<% if survey.errors.any? %>
-	<ul>
-	  <% survey.errors.full_messages.each do |message| %>
-	    <li><%= message %></li>
-	  <% end %>
-	</ul>
-<% end %>	
+<% if errors != nil %>
+	<% if errors.any? %>
+		<ul>
+		  <% errors.full_messages.each do |message| %>
+		    <li><%= message %></li>
+		  <% end %>
+		</ul>
+	<% end %>
+<% end %>		
