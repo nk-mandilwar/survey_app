@@ -1,6 +1,7 @@
 class SurveysController < ApplicationController
 	before_action :authenticate_user!
-	before_action :check_survey_user_or_nil_survey, only: [:edit, :show, :update, :destroy, :survey_form]
+	before_action :check_survey_user_or_nil_survey, only: [:edit, :show, :update, :destroy, 
+																																					:survey_feedback_form]
 
 	def new
 		@survey = Survey.new	
@@ -21,7 +22,7 @@ class SurveysController < ApplicationController
 	end
 
 	def my_surveys
-		@my_surveys = current_user.surveys
+		@my_surveys = current_user.original_surveys
 	end
 
 	def edit
@@ -37,14 +38,14 @@ class SurveysController < ApplicationController
 	end
 
 	def destroy
-		@survey.destroy
+		@survey.destroy_orginal_and_clone_surveys
 		respond_to do |format|
 			format.html {redirect_to my_surveys_surveys_path, notice: "Successfully deleted."}
 			format.js
 		end
 	end
 
-	def survey_form
+	def survey_feedback_form
 		@clone_survey = @survey.get_latest_clone_survey
 		@questions = @clone_survey.get_questions
 		@survey_answer = SurveyAnswer.new

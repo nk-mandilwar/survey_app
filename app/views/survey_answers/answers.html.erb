@@ -1,0 +1,16 @@
+<h1 id="answer_header"> Answers </h1>
+
+<% @clone_surveys.each do |survey| %>
+	<% survey.survey_answers.each do |survey_answer| %>
+		<div class="survey-answer">
+			<strong>Email: <%= survey_answer.email %></strong>
+			<ol>	
+				<% survey.questions.zip(survey_answer.answers).each do |question, answer| %>
+					<li> <%= question.query %> ?
+						<ul> <%= get_answers(answer) %> </ul>
+					</li>	
+				<% end %>
+			</ol>
+		</div>		
+	<% end %>
+<% end %>	

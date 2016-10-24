@@ -1,0 +1,3 @@
+<% options.each do |option| %>
+	<%= f.check_box :multiple_ans, {multiple: true}, option.answer, nil %> <%= option.answer %></br>
+<% end %>

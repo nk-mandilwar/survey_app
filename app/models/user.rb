@@ -7,5 +7,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  validates :username, presence: true, length: {maximum: 15}
+  validates :username, presence: true, uniqueness: { case_sensitive: false }, length: {maximum: 15}
+
+  def original_surveys
+  	self.surveys.where.not("title LIKE ?", "CloneFrom_%")
+  end
 end

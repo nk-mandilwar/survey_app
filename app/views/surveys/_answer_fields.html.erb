@@ -1,14 +1,3 @@
 <%= f.hidden_field :question_id, value: question.id %>
-
-<% case question.category %>
-<% when "Subjective" %>
-	<%= f.text_field :ans, class: "form-control" %>
-<% when "Multiple Choice" %>
-	<% question.options.each do |option| %>
-		<%= f.radio_button :ans, "#{option.answer}", class: "answer" %> <%= option.answer %><br>
-	<% end %>
-<% when "Multiple Answers" %>
-	<% question.options.each do |option| %>
-		<%= f.check_box :multiple_ans, {multiple: true}, option.answer, nil %> <%= option.answer %></br>
-	<% end %>
-<% end %>			
+<%= option_format(question, f) %>
+	

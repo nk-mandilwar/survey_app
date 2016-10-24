@@ -1,0 +1,3 @@
+<% options.each do |option| %>
+	<%= f.radio_button :ans, "#{option.answer}", class: "answer" %> <%= option.answer %><br>
+<% end %>

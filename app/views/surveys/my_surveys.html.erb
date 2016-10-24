@@ -1,18 +1,25 @@
 <h1 id="survey_header">My Surveys</h1>
 
-<table class="table">
-	<thead class="thead">
-		<tr>
-			<th>Title</th>
-		</tr>
-	</thead>
-	<tbody>
-		<% @my_surveys.each do |survey| %>
-			<tr id="survey_<%= survey.id%>">
-				<th><%= link_to survey.title, survey %></th>
-				<th><%= link_to "<i class=\"glyphicon glyphicon-pencil\"></i>".html_safe, edit_survey_path(survey) %> 			| <%= link_to "<i class=\"glyphicon glyphicon-trash\"></i>".html_safe, 
-																					survey, method: :delete, remote: true %></th>
+<% if !@my_surveys.any? %>
+	<br><br><strong>No surveys to be displayed.</strong>
+	<br><br>
+	To create new survey, <%= link_to 'click here.', new_survey_path %>
+<% else %>	
+	<table class="table">
+		<thead class="thead">
+			<tr>
+				<th>Title</th>
 			</tr>
-		<% end %>	
-	</tbody>
-</table>	
+		</thead>
+		<tbody>
+			<% @my_surveys.each do |survey| %>
+				<tr id="survey_<%= survey.id%>">
+					<th><%= link_to survey.title, survey %></th>
+					<th><%= link_to "Answers", answers_survey_answers_path(survey_id: survey.id) %></th>	
+					<th><%= link_to "<i class=\"glyphicon glyphicon-pencil\"></i>".html_safe, 
+										edit_survey_path(survey) %> | <%= link_to "<i class=\"glyphicon glyphicon-trash\"></i>".html_safe, survey, method: :delete, remote: true %></th>
+				</tr>																													
+			<% end %>	
+		</tbody>
+	</table>
+<% end %>		

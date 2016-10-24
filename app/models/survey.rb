@@ -15,6 +15,18 @@ class Survey < ActiveRecord::Base
   end
 
   def get_latest_clone_survey
-    Survey.where("title LIKE ?", "CloneFrom_#{id}%").order(created_at: :desc).first
+    get_clone_surveys.first
+  end
+
+  def get_clone_surveys
+    Survey.where("title LIKE ?", "CloneFrom_#{id}%").order(created_at: :desc)
+  end
+
+  def destroy_orginal_and_clone_surveys
+    destroy
+    surveys = get_clone_surveys
+    surveys.each do |survey|
+      survey.destroy
+    end
   end
 end
