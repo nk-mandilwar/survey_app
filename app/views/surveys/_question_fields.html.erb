@@ -6,9 +6,9 @@
 
 	<div class="field">
 		<%= f.label :category %><br>
-		<%= f.radio_button :category, 'subjective', class: "category" %> Subjective 
-		<%= f.radio_button :category, 'multiple_choice', class: "category" %> Multiple Choice 
-		<%= f.radio_button :category, 'multiple_answer', class: "category" %> Multiple Answers 
+		<%= f.radio_button :category, 'subjective', class: "subjective" %> Subjective 
+		<%= f.radio_button :category, 'multiple_choice', class: "multiple" %> Multiple Choice 
+		<%= f.radio_button :category, 'multiple_answer', class: "multiple" %> Multiple Answers 
 	</div>
 
 	<div class="remove-link">
@@ -16,12 +16,14 @@
 																																																	 f %>
 	</div>	
 
-	<%= f.fields_for :options do |builder| %>
-		<%= render partial: 'option_fields', locals: {f: builder} %>
-	<% end %>
+	<div>
+		<%= f.fields_for :options do |builder| %>
+			<%= render partial: 'option_fields', locals: {f: builder} %>
+		<% end %>
 
-	<div class="links">
-		<%= link_to_add_association "<i class=\"glyphicon glyphicon-plus\"></i> Add Option".html_safe, 
-																																												f, :options %>
+		<div class="links option-link">
+			<%= link_to_add_association "<i class=\"glyphicon glyphicon-plus\"></i> Add Option".html_safe, 
+																																													f, :options %>
+		</div>
 	</div>
 </div>

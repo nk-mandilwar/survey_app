@@ -12,11 +12,6 @@
 	border-bottom: solid 1px #e8eaed;
 }
 
-#survey_header {
-	padding-top: 20px;
-	margin-left: 10%;
-}
-
 #survey_title {
 	font-size: large;
 }
@@ -24,4 +19,8 @@
 .survey-body {
 	font-size: medium;
 	margin-top: 10px;
+}
+
+.option-link {
+	display: none;
 }

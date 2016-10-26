@@ -58,14 +58,6 @@ class SurveysController < ApplicationController
 			@survey = Survey.find_by(id: params[:id])
 		end
 
-		def check_survey_user_or_nil_survey 
-			get_survey
-			if @survey == nil || @survey.user_id != current_user.id
-				redirect_to my_surveys_surveys_path, notice: "Can't access."
-			end
-			@survey
-		end
-
 		def survey_params
 			params.require(:survey).permit(:title, questions_attributes: 
 												[:id, :query, :category, :_destroy, options_attributes: [:id, :answer, :_destroy]])

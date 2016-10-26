@@ -14,7 +14,15 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def set_cache_headers
-    response.headers["Cache-Control"] = "no-cache, no-store"
-  end
+    def set_cache_headers
+      response.headers["Cache-Control"] = "no-cache, no-store"
+    end
+
+    def check_survey_user_or_nil_survey 
+      get_survey
+      if @survey == nil || @survey.user_id != current_user.id
+        redirect_to my_surveys_surveys_path, notice: "Can't access."
+      end
+      @survey
+    end
 end

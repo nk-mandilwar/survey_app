@@ -18,12 +18,13 @@
 //= require_tree .
 
 $(document).ready(function(){
+	subjectiveChecked();
 	timeOut();
 });
 
 var timeOut = function(){
-  setTimeout(function(){
-    $('.notice').html('');
-    $('#successful_message').html('');
-  }, 2000);
-}
+	setTimeout(function(){
+	  $('.notice').html('');
+	  $('#successful_message').html('');
+	}, 2000);
+};

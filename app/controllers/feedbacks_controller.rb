@@ -27,14 +27,6 @@ class FeedbacksController < ApplicationController
 			@survey = Survey.find_by(id: params[:survey_id])
 		end
 
-		def check_survey_user_or_nil_survey 
-			get_survey
-			if @survey == nil || @survey.user_id != current_user.id
-				redirect_to my_surveys_surveys_path, notice: "Can't access."
-			end
-			@survey
-		end
-
 		def feedback_params
 			params.require(:feedback).permit(:email, :survey_id, :captcha, :captcha_key, 
 																			answers_attributes: [:id, :question_id, :ans, multiple_ans:[]])
