@@ -11,19 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161021165248) do
+ActiveRecord::Schema.define(version: 20161026063540) do
 
   create_table "answers", force: :cascade do |t|
-    t.string   "ans",              limit: 255
-    t.integer  "survey_answer_id", limit: 4
-    t.integer  "question_id",      limit: 4
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.string   "multiple_ans",     limit: 255
+    t.string   "ans",          limit: 255
+    t.integer  "question_id",  limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "multiple_ans", limit: 255
+    t.integer  "feedback_id",  limit: 4
   end
 
+  add_index "answers", ["feedback_id"], name: "index_answers_on_feedback_id", using: :btree
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
-  add_index "answers", ["survey_answer_id"], name: "index_answers_on_survey_answer_id", using: :btree
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.string   "email",      limit: 255
+    t.integer  "survey_id",  limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "feedbacks", ["survey_id"], name: "index_feedbacks_on_survey_id", using: :btree
 
   create_table "options", force: :cascade do |t|
     t.string   "answer",      limit: 255
@@ -36,7 +45,7 @@ ActiveRecord::Schema.define(version: 20161021165248) do
 
   create_table "questions", force: :cascade do |t|
     t.string   "query",      limit: 255
-    t.string   "category",   limit: 255
+    t.integer  "category",   limit: 4
     t.integer  "survey_id",  limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
@@ -97,8 +106,9 @@ ActiveRecord::Schema.define(version: 20161021165248) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", using: :btree
 
+  add_foreign_key "answers", "feedbacks"
   add_foreign_key "answers", "questions"
-  add_foreign_key "answers", "survey_answers"
+  add_foreign_key "feedbacks", "surveys"
   add_foreign_key "options", "questions"
   add_foreign_key "questions", "surveys"
   add_foreign_key "survey_answers", "surveys"

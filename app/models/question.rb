@@ -12,12 +12,14 @@ class Question < ActiveRecord::Base
     include_association :options
   end
 
+  enum category: { subjective: 0, multiple_choice: 1, multiple_answer: 2 }
+
   private
 
 	  def category_in_values
-	  	if category != 'Subjective' && category != "Multiple Choice" && 
-	  												category != "Multiple Answers" && category == nil 
-	  		errors.add(:category, "Category is Invalid")
+	  	if category != 'subjective' && category != 'multiple_choice' && 
+	  												category != "multiple_answer" && category != nil
+	  		errors.add(:category, "is Invalid")
 	  	end
 	  end
 

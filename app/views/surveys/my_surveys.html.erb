@@ -4,7 +4,8 @@
 	<br><br><strong>No surveys to be displayed.</strong>
 	<br><br>
 	To create new survey, <%= link_to 'click here.', new_survey_path %>
-<% else %>	
+<% else %>
+	<%= will_paginate @my_surveys %>	
 	<table class="table">
 		<thead class="thead">
 			<tr>
@@ -15,11 +16,12 @@
 			<% @my_surveys.each do |survey| %>
 				<tr id="survey_<%= survey.id%>">
 					<th><%= link_to survey.title, survey %></th>
-					<th><%= link_to "Answers", answers_survey_answers_path(survey_id: survey.id) %></th>	
+					<th><%= link_to "Answers", answers_feedbacks_path(survey_id: survey.id) %></th>	
 					<th><%= link_to "<i class=\"glyphicon glyphicon-pencil\"></i>".html_safe, 
 										edit_survey_path(survey) %> | <%= link_to "<i class=\"glyphicon glyphicon-trash\"></i>".html_safe, survey, method: :delete, remote: true %></th>
 				</tr>																													
 			<% end %>	
 		</tbody>
 	</table>
+	<%= will_paginate @my_surveys %>
 <% end %>		

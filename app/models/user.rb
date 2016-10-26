@@ -5,9 +5,27 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:login]
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: {maximum: 15}
+
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions.to_hash).where(["lower(username) = lower(:value) OR lower(email) = lower(:value)",
+                               { :value => login.downcase }]).first
+    elsif conditions.has_key?(:username) || conditions.has_key?(:email)
+      where(conditions.to_hash).first
+    end
+  end
+
+  def login=(login)
+    @login = login
+  end
+
+  def login
+    @login || self.username || self.email
+  end
 
   def original_surveys
   	self.surveys.where.not("title LIKE ?", "CloneFrom_%")

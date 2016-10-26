@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SurveyAnswersControllerTest < ActionController::TestCase
+class FeedbackTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

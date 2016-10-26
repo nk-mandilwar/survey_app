@@ -1,23 +1,24 @@
-class SurveyAnswersController < ApplicationController
+class FeedbacksController < ApplicationController
 	before_action :authenticate_user!
 	before_action :check_survey_user_or_nil_survey, only: :answers
 
 	def create
-		@survey_answer = SurveyAnswer.create(survey_answer_params)
-		if @survey_answer.save_with_captcha
+		@feedback = Feedback.create(feedback_params)
+		if @feedback.save_with_captcha
 			redirect_to home_path, notice: "Feedback successfully recorde. Thank You!"
 		else
-			@clone_survey = Survey.find_by(id: survey_answer_params[:survey_id])
+			@clone_survey = Survey.find_by(id: feedback_params[:survey_id])
 			@questions = @clone_survey.get_questions
-			@errors = @survey_answer.errors
-			@survey_answer = SurveyAnswer.new
-			@survey_answer.answers.build
+			@errors = @feedback.errors
+			@feedback = Feedback.new
+			@feedback.answers.build
 			render 'surveys/survey_feedback_form'
 		end
 	end
 
 	def answers
-		@clone_surveys = @survey.get_clone_surveys.includes(:questions, :survey_answers => :answers)
+		@clone_surveys = @survey.get_clone_surveys.includes(:questions, 
+															:feedbacks => :answers).paginate(page: params[:page], per_page: 1)
 	end
 
 	private
@@ -34,8 +35,8 @@ class SurveyAnswersController < ApplicationController
 			@survey
 		end
 
-		def survey_answer_params
-			params.require(:survey_answer).permit(:email, :survey_id, :captcha, :captcha_key, 
+		def feedback_params
+			params.require(:feedback).permit(:email, :survey_id, :captcha, :captcha_key, 
 																			answers_attributes: [:id, :question_id, :ans, multiple_ans:[]])
 		end
 end

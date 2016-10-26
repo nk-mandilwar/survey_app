@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
   end 
 
-  resources :survey_answers, only: :create do
+  resources :feedbacks, only: :create do
     collection do 
       get 'answers'
     end

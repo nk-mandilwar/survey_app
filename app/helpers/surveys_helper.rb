@@ -5,12 +5,11 @@ module SurveysHelper
 	end
 
 	def option_format(question, f)
-		case question.category
-		when "Subjective"
+		if question.subjective?
 			render partial: "shared/subjective_field", locals: {f: f}
-		when "Multiple Choice"
+		elsif question.multiple_choice?
 			render partial: "shared/radio_field", locals: {f: f, options: question.options}
-	 	when "Multiple Answers"
+	 	else
 			render partial: "shared/checkbox_field", locals: {f: f, options: question.options}
 		end
 	end

@@ -22,7 +22,7 @@ class SurveysController < ApplicationController
 	end
 
 	def my_surveys
-		@my_surveys = current_user.original_surveys
+		@my_surveys = current_user.original_surveys.paginate(page: params[:page], per_page: 15)
 	end
 
 	def edit
@@ -48,8 +48,8 @@ class SurveysController < ApplicationController
 	def survey_feedback_form
 		@clone_survey = @survey.get_latest_clone_survey
 		@questions = @clone_survey.get_questions
-		@survey_answer = SurveyAnswer.new
-		@survey_answer.answers.build
+		@feedback = Feedback.new
+		@feedback.answers.build
 	end
 
 	private
