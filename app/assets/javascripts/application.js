@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require bootstrap-sprockets
 //= require cocoon
 //= require_tree .
@@ -27,4 +26,16 @@ var timeOut = function(){
 	  $('.notice').html('');
 	  $('#successful_message').html('');
 	}, 2000);
+};
+
+var subjectiveChecked = function(){
+	var subjective = $('.subjective');
+	for (var i = 0; i < subjective.length; ++i){
+		if($(subjective[i]).prop('checked')){
+			$(subjective[i]).parent().next().next().find('.option-link').hide();
+		}	
+		else{
+			$(subjective[i]).parent().next().next().find('.option-link').show();
+		}
+	}			
 };

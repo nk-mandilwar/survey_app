@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 gem 'amoeba'
 gem 'devise'
-gem 'simple_form'
 gem 'cocoon'
 gem 'simple_captcha2', require: 'simple_captcha'
 gem 'will_paginate'
