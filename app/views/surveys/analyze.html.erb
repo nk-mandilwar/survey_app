@@ -1,0 +1,12 @@
+<h1 id="survey_header">Data Analysis</h1>
+
+<% @questions.zip(@same_question_answers).each do |question, answers| %>
+	<strong><%= question.query %>?</strong><br><br>
+	<% if question.multiple_answer? %>
+		<% answer_hash = get_multiple_answer_hash(question.options, answers) %>
+		<%= column_chart(answer_hash) %>
+	<% else %>
+		<%= column_chart answers.group(:ans).count %>
+	<% end %>	
+	<br><br>
+<% end %>

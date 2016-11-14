@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'amoeba'
+gem 'chartkick'
 gem 'devise'
 gem 'cocoon'
 gem 'simple_captcha2', require: 'simple_captcha'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161110103313) do
+ActiveRecord::Schema.define(version: 20161111120824) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "ans",          limit: 255
@@ -52,11 +52,13 @@ ActiveRecord::Schema.define(version: 20161110103313) do
   add_index "simple_captcha_data", ["key"], name: "idx_key", using: :btree
 
   create_table "surveys", force: :cascade do |t|
-    t.string   "title",       limit: 255
-    t.integer  "user_id",     limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-    t.boolean  "is_template"
+    t.string   "title",        limit: 255
+    t.integer  "user_id",      limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.boolean  "is_published"
+    t.integer  "cloned_from",  limit: 4
+    t.string   "attendee",     limit: 255
   end
 
   add_index "surveys", ["user_id"], name: "index_surveys_on_user_id", using: :btree

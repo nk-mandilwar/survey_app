@@ -1,0 +1,34 @@
+<h1 id="survey_header"><%= @survey.title %></h1>
+
+<div class="row">
+	<div class="col-md-offset-1 col-md-6">
+		<%= form_for @feedback, :url => {action: "create_feedback"}  do |f| %>
+
+			<div class="error-explanation">
+				<%= render partial: "surveys/error_messages", locals: {errors: @errors} %>
+			</div>
+
+			<%= f.hidden_field :title, value: @survey.title %>
+			<%= f.hidden_field :cloned_from, value: @survey.id %>
+			<%= f.hidden_field :attendee, value: current_user.username %>
+		
+			<ol>
+				<% @questions.each do |question| %>
+					<li>
+						<%= f.fields_for :questions do |builder| %>
+							<%= builder.hidden_field :query, value: question.query %>
+							<%= builder.hidden_field :category, value: question.category %>			
+							
+							<%= builder.label question.query %>? <br>
+							<%= builder.fields_for :answers do |builder| %>
+								<%= render partial: "surveys/answer_fields", locals: {question: question, f: builder} %>
+							<% end %>
+						<% end %> 		
+					</li><br>
+				<% end %>
+			</ol>
+			<%= f.simple_captcha label: "", placeholder: "Enter text" %><br>
+			<%= f.submit "Submit", class: "btn btn-primary" %>
+		<% end %>
+	</div>
+</div>	  

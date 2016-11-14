@@ -2,6 +2,12 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+
+#survey_header {
+	padding-top: 20px;
+	margin-left: 10%;
+}
+
 .question-fields {
 	padding: 10px;
 }
@@ -23,4 +29,32 @@
 
 .option-link {
 	display: none;
+}
+
+.feedback {
+	display: none;
+	border: solid 1px grey;
+	padding: 10px;
+	width: 80%;
+}
+
+.show-answer {
+	margin-left: 50%;
+	cursor: pointer;
+	color: #337ab7;
+}
+
+.hide-answer {
+	display: none;
+	margin-left: 50%;
+	cursor: pointer;
+	color: #337ab7;
+}
+
+#attendee_title {
+	width: 170px;
+	font-size: 120%;
+	padding: 5px;
+	border-bottom: solid 1px grey;
+	margin-bottom: 10px;
 }

@@ -22,7 +22,14 @@
 </ol>
 
 <p>
-  <%= link_to "Edit", edit_survey_path(@survey) %> |
-  <%= link_to "Delete", @survey, :confirm => 'Are you sure?', :method => :delete %> 
-</p>
+  <% if !@survey.is_published %>
+    <%= link_to "Publish", published_survey_path(@survey), data: {confirm: 'Are you sure? You cannot edit afterwards'} %> |
+    <%= link_to "Edit", edit_survey_path(@survey) %> |
+  <% else %>   
+    <%= link_to "Unpublish", unpublished_survey_path(@survey), data: {confirm: 'Are you sure? 
+                                      You will loose all the collected feedbacks.'} %> | 
+  <% end %>
+  <%= link_to "Delete", @survey, data: {confirm: 'Are you sure? All the feebacks will also be deleted'}, 
+                                                                                      :method => :delete %>
+</p>                                                                                        
 

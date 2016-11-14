@@ -1,0 +1,32 @@
+<h1 id="survey_header"> <%= @survey.title %> </h1>
+
+<% if !@feedbacks.any? %>
+	<br><br><strong>No feedback has yet been recorded.</strong>
+<% else %>
+	<%= will_paginate @feedbacks %>
+	<div id="attendee_title">
+		<strong>Feedback given by: </strong>
+	</div>	
+	<% @feedbacks.each do |survey| %>
+		<ol>
+			<li>
+				<div>
+					<strong><%= survey.attendee %> </strong>
+					<span id="show_<%= survey.id%>" class="show-answer">Show Answers</span>
+					<span id="hide_<%= survey.id%>" class="hide-answer">Hide Answers</span>
+				</div>	
+				<div class="feedback" id="feedback_<%= survey.id %>">
+					<ol>	
+						<% survey.questions.each do |question| %>
+							<li> <%= question.query %> ?
+								<ul> <%= get_answers(question.answers.first) %> </ul>
+							</li>	
+						<% end %>
+					</ol>
+				</div>
+			</li>
+			<br>	
+		</ol>				
+	<% end %>
+	<%= will_paginate @feedbacks %>
+<% end %>	

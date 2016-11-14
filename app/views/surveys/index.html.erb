@@ -1,0 +1,28 @@
+<h1 id="survey_header">Attend Survey</h1>
+
+<% if !@surveys.any? %>
+	<br><br><strong>No surveys is yet published.</strong>
+<% else %>
+	<%= will_paginate @surveys %>	
+	<table class="table">
+		<thead class="thead">
+			<tr>
+				<th>Title</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @surveys.zip(@current_user_feedbacks).each do |survey, feedback| %>
+				<tr>
+					<th><%= survey.title %></th>
+					<% if !feedback %> 
+						<th><%= link_to "Add Response",  new_feedback_survey_path(survey) %></th>
+					<% else %>
+						<th>Response Added</th>
+						<th><%= link_to "Edit Response", edit_feedback_survey_path(survey, feedback: feedback) %></th>
+					<% end %>						
+				</tr>																													
+			<% end %>	
+		</tbody>
+	</table>
+	<%= will_paginate @surveys %>
+<% end %>		

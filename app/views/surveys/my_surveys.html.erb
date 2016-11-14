@@ -3,25 +3,35 @@
 <% if !@my_surveys.any? %>
 	<br><br><strong>No surveys to be displayed.</strong>
 	<br><br>
-	To create new survey, <%= link_to 'click here.', new_survey_path %>
+	To create a new survey, <%= link_to 'click here.', new_survey_path %>
 <% else %>
 	<%= will_paginate @my_surveys %>	
 	<table class="table">
 		<thead class="thead">
 			<tr>
 				<th>Title</th>
+				<th>Published Status</th>
 			</tr>
 		</thead>
 		<tbody>
 			<% @my_surveys.each do |survey| %>
 				<tr id="survey_<%= survey.id%>">
 					<th><%= link_to survey.title, survey %></th>
-					<th><%= link_to "Answers", answers_feedbacks_path(survey_id: survey.id) %></th>	
-					<th><%= link_to "<i class=\"glyphicon glyphicon-pencil\"></i>".html_safe, 
-										edit_survey_path(survey) %> | <%= link_to "<i class=\"glyphicon glyphicon-trash\"></i>".html_safe, survey, method: :delete, remote: true %></th>
+					<% if survey.is_published %>
+						<th>Yes</th>
+						<th><%= link_to "Answers", feedbacks_survey_path(survey) %></th>
+						<th><%= link_to "Analyze", analyze_survey_path(survey) %></th>
+						<th><%= render partial: 'shared/link_to_delete_survey', locals: {survey: survey} %></th>
+					<% elsif %>
+						<th>No</th>
+						<th><%= render partial: 'shared/link_to_edit_survey', locals: {survey: survey} %> | 
+											<%= render partial: 'shared/link_to_delete_survey', locals: {survey: survey} %></th>
+					<% end %>						
 				</tr>																													
 			<% end %>	
 		</tbody>
 	</table>
 	<%= will_paginate @my_surveys %>
+	<br>
+	<%= link_to 'Create new survey', new_survey_path %>
 <% end %>		

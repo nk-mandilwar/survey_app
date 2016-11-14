@@ -6,17 +6,19 @@ Rails.application.routes.draw do
   resources :surveys do 
     collection do
       get 'my_surveys'
+      post 'create_feedback'
     end
     member do 
-      get 'survey_feedback_form'
+      get 'published'
+      get 'unpublished'
+      get 'new_feedback'
+      get 'feedbacks'
+      get 'edit_feedback'
+      put 'update_feedback'
+      patch 'update_feedback'
+      get 'analyze'
     end
   end 
-
-  resources :feedbacks, only: :create do
-    collection do 
-      get 'answers'
-    end
-  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

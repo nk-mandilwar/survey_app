@@ -1,7 +1,21 @@
 class SurveysController < ApplicationController
 	before_action :authenticate_user!
-	before_action :check_survey_user_or_nil_survey, only: [:edit, :show, :update, :destroy, 
-																																					:survey_feedback_form]
+	before_action :check_survey_user, only: [:edit, :show, :update, :destroy, 
+																						 					:feedbacks, :published, :unpublished, :analyze]
+	before_action :check_published, only: :new_feedback																					 					
+	
+	def index
+		@surveys = Survey.published_surveys.paginate(page: params[:page])
+		@current_user_feedbacks = Survey.get_current_user_feedback(@surveys, current_user)
+	end
+
+	def my_surveys
+		@my_surveys = current_user.surveys.paginate(page: params[:page])
+	end
+
+	def show
+		@questions = @survey.get_questions
+	end
 
 	def new
 		@survey = Survey.new	
@@ -10,46 +24,92 @@ class SurveysController < ApplicationController
 	def create
 		@survey = current_user.surveys.build(survey_params)
 		if (@survey.save)
-			duplicate_survey(@survey)
 			redirect_to @survey, notice: "Successfully created!"
 		else	
 			render 'new'
 		end	
 	end
 
-	def show
-		@questions = @survey.get_questions
-	end
-
-	def my_surveys
-		@my_surveys = current_user.original_surveys.paginate(page: params[:page], per_page: 15)
-	end
-
 	def edit
+		if @survey.is_published
+			redirect_to my_surveys_surveys_path, notice: "You can't edit a published survey!"
+		end
 	end
 
 	def update
 		if @survey.update(survey_params)
-			duplicate_survey(@survey)
-			redirect_to @survey, notice: 'Survey was successfully updated.'
+			redirect_to @survey, notice: "Survey was successfully updated."
 		else
 			render :edit
 		end
 	end
 
 	def destroy
-		@survey.destroy_orginal_and_clone_surveys
+		@survey.destroy
+		@survey.destroy_clone_surveys
 		respond_to do |format|
 			format.html {redirect_to my_surveys_surveys_path, notice: "Successfully deleted."}
 			format.js
 		end
 	end
 
-	def survey_feedback_form
-		@clone_survey = @survey.get_latest_clone_survey
-		@questions = @clone_survey.get_questions
-		@feedback = Feedback.new
-		@feedback.answers.build
+	def published
+		@survey.is_published = true
+		@survey.save
+		redirect_to :back, notice: "Successfully published."
+	end
+
+	def unpublished
+		@survey.is_published = false
+		@survey.save
+		@survey.destroy_clone_surveys
+		redirect_to :back, notice: "Successfully unpublished."
+	end
+
+	def new_feedback
+		@feedback = Survey.new
+		@feedback.questions.build do |question|
+			question.answers.build
+		end
+		@questions = @survey.get_questions
+	end
+
+	def create_feedback
+		@feedback = Survey.create(survey_feedback_params)
+		if @feedback.save_with_captcha
+			redirect_to surveys_path, notice: "Response recorded successfully. Thank You!"
+		elsif check_attendee_uniqueness?(@feedback.errors)
+			 redirect_to surveys_path, notice: "Response has already been added"
+		else
+			@survey = Survey.find_by(id: params[:survey][:cloned_from])
+			@questions = @survey.get_questions
+			@errors = @feedback.errors
+			@feedback = Survey.new
+			@feedback.questions.build do |question|
+				question.answers.build
+			end
+			render 'new_feedback'
+		end
+	end
+
+	def edit_feedback
+		@survey = Survey.find_by(id: params[:id])
+		@feedback = Survey.find_by(id: params[:feedback])
+		@questions = @survey.get_questions
+	end
+
+	def update_feedback
+		binding.pry
+	end
+
+	def feedbacks
+		@feedbacks = Survey.dup_surveys(@survey.id).includes(questions: :answers).
+																																	paginate(page: params[:page])
+	end
+
+	def analyze
+		@questions = @survey.get_questions
+		@same_question_answers = Survey.get_same_question_answers(@survey, @questions)
 	end
 
 	private
@@ -58,16 +118,43 @@ class SurveysController < ApplicationController
 			@survey = Survey.find_by(id: params[:id])
 		end
 
+		def check_nil_survey
+			get_survey
+      if !@survey
+        redirect_to my_surveys_surveys_path, notice: "Does not exist."
+      end
+      @survey
+    end
+
+		def check_survey_user
+      if check_nil_survey
+      	if @survey.user_id != current_user.id
+        	redirect_to my_surveys_surveys_path, notice: "Can't access."
+      	end
+      end
+      @survey
+    end
+
+    def check_published
+    	if check_nil_survey
+    		if !@survey.is_published
+    			redirect_to surveys_path, notice: "Survey yet to be published"
+    		end
+    	end
+    	@survey
+    end
+
+    def check_attendee_uniqueness?(errors)
+    	errors.full_messages[0] == "Attendee has already been taken"
+    end
+
 		def survey_params
 			params.require(:survey).permit(:title, questions_attributes: 
 												[:id, :query, :category, :_destroy, options_attributes: [:id, :answer, :_destroy]])
-		end	
-
-		def duplicate_survey(survey)
-			survey.class.amoeba do
-				prepend title: "CloneFrom_#{survey.id}_"
-			end
-			@clone_survey = survey.amoeba_dup
-			@clone_survey.save
 		end
+
+		def survey_feedback_params
+			params.require(:survey).permit(:title, :cloned_from, :attendee, :captcha, :captcha_key, questions_attributes: [:id, :query, 
+												:category, answers_attributes: [:id, :ans, multiple_ans:[]]])
+		end	
 end

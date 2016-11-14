@@ -26,8 +26,4 @@ class User < ActiveRecord::Base
   def login
     @login || self.username || self.email
   end
-
-  def original_surveys
-  	self.surveys.where.not("title LIKE ?", "CloneFrom_%")
-  end
 end
