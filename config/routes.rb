@@ -13,9 +13,6 @@ Rails.application.routes.draw do
       get 'unpublished'
       get 'new_feedback'
       get 'feedbacks'
-      get 'edit_feedback'
-      put 'update_feedback'
-      patch 'update_feedback'
       get 'analyze'
     end
   end 

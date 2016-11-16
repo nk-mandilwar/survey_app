@@ -44,4 +44,14 @@ module SurveysHelper
 		answer_hash
 	end
 
+	def display_category(question)
+		if question.subjective?
+			"Subjective"
+		elsif question.multiple_choice?
+			"Multiple Choice"
+	 	else
+			"Multiple Answer"
+		end
+	end
+
 end

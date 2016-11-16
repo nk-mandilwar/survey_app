@@ -18,7 +18,6 @@
 						<th><%= link_to "Add Response",  new_feedback_survey_path(survey) %></th>
 					<% else %>
 						<th>Response Added</th>
-						<th><%= link_to "Edit Response", edit_feedback_survey_path(survey, feedback: feedback) %></th>
 					<% end %>						
 				</tr>																													
 			<% end %>	

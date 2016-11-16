@@ -19,14 +19,17 @@
 					<th><%= link_to survey.title, survey %></th>
 					<% if survey.is_published %>
 						<th>Yes</th>
-						<th><%= link_to "Answers", feedbacks_survey_path(survey) %></th>
-						<th><%= link_to "Analyze", analyze_survey_path(survey) %></th>
-						<th><%= render partial: 'shared/link_to_delete_survey', locals: {survey: survey} %></th>
 					<% elsif %>
-						<th>No</th>
-						<th><%= render partial: 'shared/link_to_edit_survey', locals: {survey: survey} %> | 
-											<%= render partial: 'shared/link_to_delete_survey', locals: {survey: survey} %></th>
-					<% end %>						
+						<th>No</th>	
+					<% end %>
+					<th><%= link_to "Answers", feedbacks_survey_path(survey) %></th>
+					<th><%= link_to "Analyze", analyze_survey_path(survey) %></th>	
+					<th>
+						<%= render partial: 'shared/link_to_delete_survey', locals: {survey: survey} %>
+						<% if !survey.is_published %>
+							<%= render partial: 'shared/link_to_edit_survey', locals: {survey: survey} %> 
+						<% end %>	
+					</th>						
 				</tr>																													
 			<% end %>	
 		</tbody>

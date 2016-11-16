@@ -5,12 +5,12 @@ class SurveysController < ApplicationController
 	before_action :check_published, only: :new_feedback																					 					
 	
 	def index
-		@surveys = Survey.published_surveys.paginate(page: params[:page])
-		@current_user_feedbacks = Survey.get_current_user_feedback(@surveys, current_user)
+		@surveys = Survey.published_surveys.paginate(page: params[:page], per_page: 10)
+		@current_user_feedbacks = Survey.get_feedback_for_user(@surveys, current_user)
 	end
 
 	def my_surveys
-		@my_surveys = current_user.surveys.paginate(page: params[:page])
+		@my_surveys = current_user.surveys.paginate(page: params[:page], per_page: 10)
 	end
 
 	def show
@@ -38,6 +38,7 @@ class SurveysController < ApplicationController
 
 	def update
 		if @survey.update(survey_params)
+			@survey.destroy_clone_surveys
 			redirect_to @survey, notice: "Survey was successfully updated."
 		else
 			render :edit
@@ -54,15 +55,12 @@ class SurveysController < ApplicationController
 	end
 
 	def published
-		@survey.is_published = true
-		@survey.save
+		@survey.update_columns(is_published: true)
 		redirect_to :back, notice: "Successfully published."
 	end
 
 	def unpublished
-		@survey.is_published = false
-		@survey.save
-		@survey.destroy_clone_surveys
+		@survey.update_columns(is_published: false)
 		redirect_to :back, notice: "Successfully unpublished."
 	end
 
@@ -75,36 +73,28 @@ class SurveysController < ApplicationController
 	end
 
 	def create_feedback
-		@feedback = Survey.create(survey_feedback_params)
-		if @feedback.save_with_captcha
-			redirect_to surveys_path, notice: "Response recorded successfully. Thank You!"
-		elsif check_attendee_uniqueness?(@feedback.errors)
-			 redirect_to surveys_path, notice: "Response has already been added"
+		if check_attendee_uniqueness?(survey_feedback_params[:cloned_from], survey_feedback_params[:attendee])
+			redirect_to surveys_path, notice: "You have already submitted your feedback!" 
 		else
-			@survey = Survey.find_by(id: params[:survey][:cloned_from])
-			@questions = @survey.get_questions
-			@errors = @feedback.errors
-			@feedback = Survey.new
-			@feedback.questions.build do |question|
-				question.answers.build
+			@feedback = Survey.new(survey_feedback_params)
+			if @feedback.save_with_captcha
+				redirect_to surveys_path, notice: "Response recorded successfully. Thank You!"
+			else
+				@survey = Survey.find_by(id: params[:survey][:cloned_from])
+				@questions = @survey.get_questions
+				@errors = @feedback.errors
+				@feedback = Survey.new
+				@feedback.questions.build do |question|
+					question.answers.build
+				end
+				render 'new_feedback'
 			end
-			render 'new_feedback'
 		end
-	end
-
-	def edit_feedback
-		@survey = Survey.find_by(id: params[:id])
-		@feedback = Survey.find_by(id: params[:feedback])
-		@questions = @survey.get_questions
-	end
-
-	def update_feedback
-		binding.pry
 	end
 
 	def feedbacks
 		@feedbacks = Survey.dup_surveys(@survey.id).includes(questions: :answers).
-																																	paginate(page: params[:page])
+																																	paginate(page: params[:page], per_page: 10)
 	end
 
 	def analyze
@@ -144,9 +134,9 @@ class SurveysController < ApplicationController
     	@survey
     end
 
-    def check_attendee_uniqueness?(errors)
-    	errors.full_messages[0] == "Attendee has already been taken"
-    end
+    def check_attendee_uniqueness?(cloned_from, attendee)
+    	Survey.where(cloned_from: cloned_from, attendee: attendee).any?
+  	end
 
 		def survey_params
 			params.require(:survey).permit(:title, questions_attributes: 

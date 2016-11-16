@@ -1,19 +1,16 @@
-<h1 id="survey_header"> Preview </h1>
-
 <div id="survey_title">
-  <strong>Title:</strong>
-  <%= @survey.title %>
+  <strong><%= @survey.title %></strong>
 </div>
 
 <ol>
   <% @questions.each do |question| %>
     <div class="survey-body">
       <li> 
-        Type: <%= question.category %><br>
-        Question: <%= question.query %>
+        <strong>Type: <%= display_category(question) %></strong><br>
+        <strong>Question: <%= question.query %></strong>
         <ul>
         <% question.options.each do |option| %>
-          <li><%= option.answer %></li>
+          <li><strong><%= option.answer %></strong></li>
         <% end %>
         </ul>
       </li>
@@ -21,15 +18,16 @@
   <% end %>
 </ol>
 
-<p>
+<p id="survey_manipulation">
   <% if !@survey.is_published %>
-    <%= link_to "Publish", published_survey_path(@survey), data: {confirm: 'Are you sure? You cannot edit afterwards'} %> |
-    <%= link_to "Edit", edit_survey_path(@survey) %> |
+    <%= link_to "Publish", published_survey_path(@survey), data: {confirm: 'Are you sure? You cannot edit afterwards.'}%> | 
+    <%= link_to "Edit", edit_survey_path(@survey), data: {confirm: 'Are you sure? 
+                                    All the collected feedbacks will be deleted.'} %> |
   <% else %>   
-    <%= link_to "Unpublish", unpublished_survey_path(@survey), data: {confirm: 'Are you sure? 
-                                      You will loose all the collected feedbacks.'} %> | 
+    <%= link_to "Unpublish", unpublished_survey_path(@survey), data: {confirm: 'Are you sure?
+                                      You cannot collet feedbacks until you publish it again.'} %> | 
   <% end %>
-  <%= link_to "Delete", @survey, data: {confirm: 'Are you sure? All the feebacks will also be deleted'}, 
+  <%= link_to "Delete", @survey, data: {confirm: 'Are you sure? All the feedbacks will also be deleted.'}, 
                                                                                       :method => :delete %>
 </p>                                                                                        
 

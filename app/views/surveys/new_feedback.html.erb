@@ -19,14 +19,15 @@
 							<%= builder.hidden_field :query, value: question.query %>
 							<%= builder.hidden_field :category, value: question.category %>			
 							
-							<%= builder.label question.query %>? <br>
+							<%= builder.label question.query %><br>
 							<%= builder.fields_for :answers do |builder| %>
-								<%= render partial: "surveys/answer_fields", locals: {question: question, f: builder} %>
+								<%= option_format(question, builder) %>
 							<% end %>
 						<% end %> 		
 					</li><br>
 				<% end %>
 			</ol>
+			
 			<%= f.simple_captcha label: "", placeholder: "Enter text" %><br>
 			<%= f.submit "Submit", class: "btn btn-primary" %>
 		<% end %>

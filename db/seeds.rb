@@ -5,3 +5,14 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+require 'securerandom'
+
+75.times do
+  User.create(
+    :username => SecureRandom.hex(6),
+    :email => "#{SecureRandom.hex(6)}@ex.c",
+    :password => "123123",
+    :confirmed_at => Time.now
+  )
+end

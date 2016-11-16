@@ -5,6 +5,7 @@ class Question < ActiveRecord::Base
   accepts_nested_attributes_for :options, allow_destroy: true
   accepts_nested_attributes_for :answers
 
+  before_save :query_format
 
   validates :query, presence: true, length: {maximum: 80}
   validate :category_in_values
@@ -19,5 +20,10 @@ class Question < ActiveRecord::Base
 	  		errors.add(:category, "is Invalid")
 	  	end
 	  end
+
+    def query_format
+      self.query = query.downcase.capitalize
+      self.query = (query + '?') unless query.end_with? '?'
+    end
 
 end

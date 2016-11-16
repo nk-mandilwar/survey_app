@@ -6,6 +6,7 @@
 #survey_header {
 	padding-top: 20px;
 	margin-left: 10%;
+	margin-bottom: 50px;
 }
 
 .question-fields {
@@ -19,12 +20,16 @@
 }
 
 #survey_title {
-	font-size: large;
+	font-size: 50px;
+	margin-left: 15%;
+	margin-top: 50px;
+	color: #0b3e91;
 }
 
 .survey-body {
-	font-size: medium;
-	margin-top: 10px;
+	font-size: large;
+	margin-top: 20px;
+	margin-left: 5%;
 }
 
 .option-link {
@@ -36,19 +41,23 @@
 	border: solid 1px grey;
 	padding: 10px;
 	width: 80%;
+	font-size: large;
 }
 
-.show-answer {
-	margin-left: 50%;
+.show-answer, .hide-answer {
+	float: right;
+	margin-right: 30%;
 	cursor: pointer;
 	color: #337ab7;
 }
 
 .hide-answer {
 	display: none;
-	margin-left: 50%;
-	cursor: pointer;
-	color: #337ab7;
+}
+
+.show-answer:hover, .hide-answer:hover {
+	text-decoration: underline;
+	color: #2d4a7a;
 }
 
 #attendee_title {
@@ -57,4 +66,10 @@
 	padding: 5px;
 	border-bottom: solid 1px grey;
 	margin-bottom: 10px;
+}
+
+#survey_manipulation {
+	margin-left: 7%;
+	margin-top: 20px;
+	font-size: medium;
 }

@@ -24,7 +24,7 @@
 	color: #0f190b;
 }
 
-#step_1 {
+#step_1, #step_3 {
 	float: left;
 	margin-left: 5%;
 	margin-top: 5%;
@@ -35,29 +35,7 @@
 	box-shadow: 10px 10px 5px #888888;
 }
 
-#step_2 {
-	float: right;
-	margin-right: 15%;
-	margin-top: 5%;
-	padding: 1%;
-	width: 30%;
-	height: 200px;
-	background: #c9f7b7;
-	box-shadow: 10px 10px 5px #888888;
-}
-
-#step_3 {
-	float: left;
-	margin-left: 5%;
-	margin-top: 5%;
-	padding: 1%;
-	width: 30%;
-	height: 200px;
-	background: #c9f7b7;
-	box-shadow: 10px 10px 5px #888888;
-}
-
-#step_4 {
+#step_2, #step_4 {
 	float: right;
 	margin-right: 15%;
 	margin-top: 5%;
