@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161111120824) do
+ActiveRecord::Schema.define(version: 20161117123720) do
 
   create_table "answers", force: :cascade do |t|
     t.string   "ans",          limit: 255
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20161111120824) do
     t.datetime "updated_at",              null: false
   end
 
+  add_index "options", ["answer", "question_id"], name: "index_options_on_answer_and_question_id", unique: true, using: :btree
   add_index "options", ["question_id"], name: "index_options_on_question_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
@@ -40,6 +41,7 @@ ActiveRecord::Schema.define(version: 20161111120824) do
     t.datetime "updated_at",             null: false
   end
 
+  add_index "questions", ["query", "survey_id"], name: "index_questions_on_query_and_survey_id", unique: true, using: :btree
   add_index "questions", ["survey_id"], name: "index_questions_on_survey_id", using: :btree
 
   create_table "simple_captcha_data", force: :cascade do |t|

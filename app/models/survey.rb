@@ -8,7 +8,8 @@ class Survey < ActiveRecord::Base
   scope :published_surveys, -> { where(is_published: true) }
 
   before_save :title_format
-  validates :title, presence: true, length: { maximum: 50 }
+  validates :title, presence: true, length: { maximum: 50 }, 
+                                    uniqueness: { case_sensitive: false }, unless: :cloned_from
   validates :attendee, presence: true, if: :cloned_from
 
   def get_questions

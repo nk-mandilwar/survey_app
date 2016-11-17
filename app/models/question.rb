@@ -16,7 +16,7 @@ class Question < ActiveRecord::Base
 
 	  def category_in_values
 	  	if category != 'subjective' && category != 'multiple_choice' && 
-	  												category != "multiple_answer" && category != nil
+	  		                             category != "multiple_answer" && category != nil
 	  		errors.add(:category, "is Invalid")
 	  	end
 	  end

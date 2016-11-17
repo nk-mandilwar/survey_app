@@ -1,7 +1,7 @@
 class SurveysController < ApplicationController
 	before_action :authenticate_user!
 	before_action :check_survey_user, only: [:edit, :show, :update, :destroy, 
-																						 					:feedbacks, :published, :unpublished, :analyze]
+																					:feedbacks, :published, :unpublished, :analyze]
 	before_action :check_published, only: :new_feedback																					 					
 	
 	def index
@@ -23,11 +23,16 @@ class SurveysController < ApplicationController
 
 	def create
 		@survey = current_user.surveys.build(survey_params)
-		if (@survey.save)
-			redirect_to @survey, notice: "Successfully created!"
-		else	
+		begin
+			if (@survey.save)
+				redirect_to @survey, notice: "Successfully created!"
+			else	
+				render 'new'
+			end
+		rescue
+			@survey.errors[:base] = "Questions cannot be same. Options for a question cannot be same."
 			render 'new'
-		end	
+		end
 	end
 
 	def edit
@@ -37,8 +42,8 @@ class SurveysController < ApplicationController
 	end
 
 	def update
+		@survey.destroy_clone_surveys
 		if @survey.update(survey_params)
-			@survey.destroy_clone_surveys
 			redirect_to @survey, notice: "Survey was successfully updated."
 		else
 			render :edit
@@ -94,7 +99,7 @@ class SurveysController < ApplicationController
 
 	def feedbacks
 		@feedbacks = Survey.dup_surveys(@survey.id).includes(questions: :answers).
-																																	paginate(page: params[:page], per_page: 10)
+																								paginate(page: params[:page], per_page: 10)
 	end
 
 	def analyze
@@ -139,12 +144,13 @@ class SurveysController < ApplicationController
   	end
 
 		def survey_params
-			params.require(:survey).permit(:title, questions_attributes: 
-												[:id, :query, :category, :_destroy, options_attributes: [:id, :answer, :_destroy]])
+			params.require(:survey).permit(:title, questions_attributes: [:id, :query, :category, :_destroy, 
+																																	 options_attributes: [:id, :answer, :_destroy]])
 		end
 
 		def survey_feedback_params
-			params.require(:survey).permit(:title, :cloned_from, :attendee, :captcha, :captcha_key, questions_attributes: [:id, :query, 
-												:category, answers_attributes: [:id, :ans, multiple_ans:[]]])
+			params.require(:survey).permit(:title, :cloned_from, :attendee, :captcha, :captcha_key, 
+																		 questions_attributes: [:id, :query, :category, 
+																		 											 answers_attributes: [:id, :ans, multiple_ans:[]]])
 		end	
 end

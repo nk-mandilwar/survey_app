@@ -20,7 +20,8 @@
 
 <p id="survey_manipulation">
   <% if !@survey.is_published %>
-    <%= link_to "Publish", published_survey_path(@survey), data: {confirm: 'Are you sure? You cannot edit afterwards.'}%> | 
+    <%= link_to "Publish", published_survey_path(@survey), 
+                            data: {confirm: 'Are you sure? You cannot edit afterwards.'}%> | 
     <%= link_to "Edit", edit_survey_path(@survey), data: {confirm: 'Are you sure? 
                                     All the collected feedbacks will be deleted.'} %> |
   <% else %>   
